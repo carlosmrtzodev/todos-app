@@ -1,8 +1,8 @@
 import TasksService from "../services/task";
 import { CREATE_TASK, GET_TASKS, UPDATE_TASK, DELETE_TASK } from "./types";
-export const createTask = (description, date) => async (dispatch) => {
+export const createTask = (description, date, creation) => async (dispatch) => {
   try {
-    const res = await TasksService.create({ description, date });
+    const res = await TasksService.create({ description, date, creation });
 
     dispatch({
       type: CREATE_TASK,

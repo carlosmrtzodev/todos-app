@@ -1,10 +1,17 @@
 import moment from "moment";
 import { Link } from "react-router-dom";
-import { deleteTask, getTasks } from "../actions/tasks";
+import {
+  faCheckCircle,
+  faCircleXmark,
+  faClock,
+  faFilter,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
+import Container from "./containers/Container";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Container from "./containers/Container";
-import task from "../services/task";
+import { deleteTask, getTasks } from "../actions/tasks";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const tasks = () => {
   const [currentTask, setCurrentTask] = useState(null);
@@ -26,7 +33,7 @@ const tasks = () => {
     setCurrentIndex(index);
   };
 
-  const removeTutorial = () => {
+  const removeTask = () => {
     dispatch(deleteTask(currentTask.id))
       .then(() => {
         refreshData();
@@ -40,18 +47,29 @@ const tasks = () => {
     <Container>
       <header className="header">
         <div className="header__titles">
-          <h1>Cosas por hacer</h1>
+          <h1 className="title">Cosas por hacer</h1>
 
-          <h4>Hoy: {moment().format("MM/DD/YYYY")}</h4>
+          <h2 className="subtitle">Hoy: {moment().format("DD/MM/YYYY")}</h2>
         </div>
 
-        <div className="header__actions">
-          <button>Liberar Seleccionados</button>
+        <nav className="header__nav">
+          <ul className="header__nav-actions">
+            <li className="header__nav-actions_button">
+              <button className="button">Liberar Seleccionados</button>
+            </li>
 
-          <select>
-            <option>Ordenar</option>
-          </select>
-        </div>
+            <li className="header__nav-actions_inputs">
+              <FontAwesomeIcon icon={faFilter} className="icon icon__select" />
+
+              <select className="select">
+                <option className="select__options">Ordenar</option>
+                <option className="select__options">Creación</option>
+                <option className="select__options">Vencimiento</option>
+                <option className="select__options">Estado</option>
+              </select>
+            </li>
+          </ul>
+        </nav>
       </header>
 
       {tasks &&
@@ -61,52 +79,66 @@ const tasks = () => {
             onClick={() => setActiveTask(task, index)}
             key={index}
           >
-            <input type="checkbox" />
-            <p>{task.description}</p>
-            <p>{task.date}</p>
-            <p>icon</p>
+            <div className="tasks__checkbox">
+              <input type="checkbox" className="check" />
+            </div>
+
+            <div className="tasks__description">
+              <h3 className="text">{task.description}</h3>
+            </div>
+
+            <div className="tasks__date">
+              <p className="text">{task.date}</p>
+            </div>
+
+            {moment().format("DD/MM/YYYY").toString() <= task.date ? (
+              <div className="tasks__icons">
+                <FontAwesomeIcon icon={faClock} className="icon icon__timer" />
+              </div>
+            ) : task.status === "Completado" ? (
+              <div className="tasks__icons">
+                <FontAwesomeIcon
+                  icon={faCheckCircle}
+                  className="icon icon__completed"
+                />
+              </div>
+            ) : (
+              <div className="tasks__icons">
+                <FontAwesomeIcon
+                  icon={faCircleXmark}
+                  className="icon icon__incompleted"
+                />
+              </div>
+            )}
           </div>
         ))}
 
-      <div className="col-md-6">
-        {currentTask ? (
-          <div>
-            <h4>Tasks</h4>
-            <div>
-              <label>
-                <strong>Description:</strong>
-              </label>{" "}
-              {currentTask.description}
-            </div>
-            <div>
-              <label>
-                <strong>Date:</strong>
-              </label>{" "}
-              {currentTask.date}
-            </div>
-            <div>
-              <label>
-                <strong>Status:</strong>
-              </label>{" "}
-              {/* {currentTask.published ? "Published" : "Pending"} */}
-            </div>
-
-            <button onClick={removeTutorial}>Eliminar</button>
+      {currentTask ? (
+        <div className="actions">
+          <div className="actions__container">
+            <button onClick={removeTask} className="button button__delete">
+              Eliminar
+            </button>
 
             <Link
               to={"/Tasks/" + currentTask.id}
-              className="badge badge-warning"
+              className="button button__update"
             >
-              Edit
+              Editar
             </Link>
           </div>
-        ) : (
-          <div>
-            <br />
-            <p>Please click on a Tutorial...</p>
+
+          <button onClick={refreshData} className="button">
+            Cancelar
+          </button>
+        </div>
+      ) : (
+        <Link to="/add">
+          <div className="add">
+            <FontAwesomeIcon icon={faPlus} className="icon icon__add" />
           </div>
-        )}
-      </div>
+        </Link>
+      )}
     </Container>
   );
 };
