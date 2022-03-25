@@ -16,8 +16,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const tasks = () => {
   const [currentTask, setCurrentTask] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
+  const [sort, setSort] = useState(0);
   const tasks = useSelector((state) => state.tasks);
   const dispatch = useDispatch();
+  const myData = [].concat(tasks);
+  myData.sort((a, b) => (a.creation > b.creation ? 1 : -1));
 
   useEffect(() => {
     dispatch(getTasks());
@@ -43,6 +46,11 @@ const tasks = () => {
       });
   };
 
+  const sortTasks = (e) => {
+    console.log(e.target.value);
+    setSort(Number(e.target.value));
+  };
+
   return (
     <Container>
       <header className="header">
@@ -55,16 +63,22 @@ const tasks = () => {
         <nav className="header__nav">
           <ul className="header__nav-actions">
             <li className="header__nav-actions_button">
-              <button className="button">Liberar Seleccionados</button>
+              <button className="button" onClick={sortTasks}>
+                Liberar Seleccionados
+              </button>
             </li>
 
             <li className="header__nav-actions_inputs">
               <FontAwesomeIcon icon={faFilter} className="icon icon__select" />
 
-              <select className="select">
+              <select className="select" onChange={sortTasks}>
                 <option className="select__options">Ordenar</option>
-                <option className="select__options">Creación</option>
-                <option className="select__options">Vencimiento</option>
+                <option className="select__options" value={1}>
+                  Creación
+                </option>
+                <option className="select__options" value={2}>
+                  Vencimiento
+                </option>
                 <option className="select__options">Estado</option>
               </select>
             </li>
@@ -72,46 +86,98 @@ const tasks = () => {
         </nav>
       </header>
 
-      {tasks &&
-        tasks.map((task, index) => (
-          <div
-            className={"tasks " + (index === currentIndex ? "active" : "")}
-            onClick={() => setActiveTask(task, index)}
-            key={index}
-          >
-            <div className="tasks__checkbox">
-              <input type="checkbox" className="check" />
-            </div>
+      {tasks && sort === 1
+        ? tasks
+            .sort((a, b) => (a.creation > b.creation ? -1 : -1))
+            .map((task, index) => (
+              <div
+                className={"tasks " + (index === currentIndex ? "active" : "")}
+                onClick={() => setActiveTask(task, index)}
+                key={index}
+              >
+                <div className="tasks__checkbox">
+                  <input type="checkbox" className="check" />
+                </div>
 
-            <div className="tasks__description">
-              <h3 className="text">{task.description}</h3>
-            </div>
+                <div className="tasks__description">
+                  <h3 className="text">{task.description}</h3>
+                </div>
 
-            <div className="tasks__date">
-              <p className="text">{task.date}</p>
-            </div>
+                <div className="tasks__date">
+                  <p className="text">F.C {task.creation}</p>
+                  <p className="text">F.V {task.date}</p>
+                </div>
 
-            {moment().format("DD/MM/YYYY").toString() <= task.date ? (
-              <div className="tasks__icons">
-                <FontAwesomeIcon icon={faClock} className="icon icon__timer" />
+                {moment().format("DD/MM/YYYY").toString() <= task.date ? (
+                  <div className="tasks__icons">
+                    <FontAwesomeIcon
+                      icon={faClock}
+                      className="icon icon__timer"
+                    />
+                  </div>
+                ) : task.status === "Completado" ? (
+                  <div className="tasks__icons">
+                    <FontAwesomeIcon
+                      icon={faCheckCircle}
+                      className="icon icon__completed"
+                    />
+                  </div>
+                ) : (
+                  <div className="tasks__icons">
+                    <FontAwesomeIcon
+                      icon={faCircleXmark}
+                      className="icon icon__incompleted"
+                    />
+                  </div>
+                )}
               </div>
-            ) : task.status === "Completado" ? (
-              <div className="tasks__icons">
-                <FontAwesomeIcon
-                  icon={faCheckCircle}
-                  className="icon icon__completed"
-                />
+            ))
+        : sort === 2
+        ? tasks
+            .sort((a, b) => (a.date > b.date ? 1 : -1))
+            .map((task, index) => (
+              <div
+                className={"tasks " + (index === currentIndex ? "active" : "")}
+                onClick={() => setActiveTask(task, index)}
+                key={index}
+              >
+                <div className="tasks__checkbox">
+                  <input type="checkbox" className="check" />
+                </div>
+
+                <div className="tasks__description">
+                  <h3 className="text">{task.description}</h3>
+                </div>
+
+                <div className="tasks__date">
+                  <p className="text">{task.date}</p>
+                </div>
+
+                {moment().format("DD/MM/YYYY").toString() <= task.date ? (
+                  <div className="tasks__icons">
+                    <FontAwesomeIcon
+                      icon={faClock}
+                      className="icon icon__timer"
+                    />
+                  </div>
+                ) : task.status === "Completado" ? (
+                  <div className="tasks__icons">
+                    <FontAwesomeIcon
+                      icon={faCheckCircle}
+                      className="icon icon__completed"
+                    />
+                  </div>
+                ) : (
+                  <div className="tasks__icons">
+                    <FontAwesomeIcon
+                      icon={faCircleXmark}
+                      className="icon icon__incompleted"
+                    />
+                  </div>
+                )}
               </div>
-            ) : (
-              <div className="tasks__icons">
-                <FontAwesomeIcon
-                  icon={faCircleXmark}
-                  className="icon icon__incompleted"
-                />
-              </div>
-            )}
-          </div>
-        ))}
+            ))
+        : null}
 
       {currentTask ? (
         <div className="actions">

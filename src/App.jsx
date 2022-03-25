@@ -1,8 +1,8 @@
-import "./App.css";
+import "./Globals.css";
 import Tasks from "./components/Tasks";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Task from "./components/pages/Task";
 import AddTask from "./components/pages/AddTask";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
