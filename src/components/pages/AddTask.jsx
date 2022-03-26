@@ -15,6 +15,7 @@ const AddTask = () => {
   const [task, setTask] = useState(initialTaskState);
   const [submitted, setSubmitted] = useState(false);
   const dispatch = useDispatch();
+  console.log(initialTaskState);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -50,63 +51,77 @@ const AddTask = () => {
   return (
     <Container>
       <div className="form">
-        {submitted ? (
-          <div className="form__success">
-            <h4 className="subtitle">You submitted successfully!</h4>
+        <div className="form__container">
+          {submitted ? (
+            <>
+              <div className="form__container-message">
+                <h4 className="subtitle">
+                  Se ha creado la tarjeta exitosamente!
+                </h4>
+              </div>
 
-            <div className="form__succes-buttons">
-              <button className="button" onClick={newTask}>
-                Agregar Otra
-              </button>
+              <div className="form__container-buttons">
+                <button onClick={newTask} className="button button__alt">
+                  Crear otra
+                </button>
 
-              <Link to="/">
-                <button className="button button__update">Volver</button>
-              </Link>
-            </div>
-          </div>
-        ) : (
-          <div className="form__container">
-            <div className="form__container-title">
-              <h1 className="title">Crear Tarea</h1>
-            </div>
+                <Link to="/" className="button">
+                  Volver
+                </Link>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="form__container-message">
+                <h1 className="title">Crear Tarjeta</h1>
+              </div>
 
-            <div className="form__container-group">
-              <label htmlFor="description" className="label">
-                Descripción
-              </label>
+              <form className="form__container-form">
+                <div className="form__container-group">
+                  <label htmlFor="description" className="label">
+                    Descripción
+                  </label>
 
-              <input
-                type="text"
-                className="input__text"
-                id="description"
-                required
-                value={task.description}
-                onChange={handleInputChange}
-                name="description"
-              />
-            </div>
+                  <input
+                    type="text"
+                    className="input__text"
+                    id="description"
+                    required
+                    value={task.description}
+                    onChange={handleInputChange}
+                    name="description"
+                  />
+                </div>
 
-            <div className="form__container-group">
-              <label htmlFor="date" className="label">
-                Fecha
-              </label>
+                <div className="form__container-group">
+                  <label htmlFor="date" className="label">
+                    Fecha de Vencimiento
+                  </label>
 
-              <input
-                type="text"
-                className="input__text"
-                id="date"
-                required
-                value={task.date}
-                onChange={handleInputChange}
-                name="date"
-              />
-            </div>
+                  <input
+                    type="text"
+                    className="input__text"
+                    id="date"
+                    required
+                    value={task.date}
+                    onChange={handleInputChange}
+                    name="date"
+                  />
+                </div>
+              </form>
 
-            <button onClick={saveTask} className="button">
-              Enviar
-            </button>
-          </div>
-        )}
+              <div className="form__container-buttons">
+                <button onClick={saveTask} className="button button__alt">
+                  Crear
+                </button>
+
+                <Link to="/" className="button">
+                  Volver
+                </Link>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </Container>
   );

@@ -7,40 +7,39 @@
     @apply m-0 p-0 list-none no-underline box-border scroll-smooth font-roboto;
   }
   body {
-    @apply bg-light;
+    @apply bg-dark;
   }
 }
 
 @layer components {
   .button {
-    @apply bg-green text-paragraph py-2 px-4 rounded-sm text-light hover:brightness-110 transition-all ease-in-out duration-200;
+    @apply bg-blue text-paragraph py-2 px-4 rounded-sm text-light hover:brightness-110 transition-all ease-in-out duration-200 font-medium text-center;
   }
-  .button__update {
-    @apply bg-blue;
-  }
-  .button__delete {
-    @apply bg-red;
+  .button__alt {
+    @apply bg-green;
   }
   .select {
-    @apply bg-light text-dark text-paragraph outline-none;
-  }
-  .title {
-    @apply text-title font-medium;
-  }
-  .subtitle {
-    @apply text-subtitle;
-  }
-  .text {
-    @apply text-paragraph text-dark;
-  }
-  .label {
-    @apply text-subtitle text-dark font-medium;
+    @apply bg-light py-2 px-4 rounded-sm text-dark text-paragraph font-medium outline-none;
   }
   .input__text {
-    @apply p-2 outline-none text-dark border border-dark rounded-sm;
+    @apply p-2 outline-none bg-dark text-blue font-medium border-2 border-blue rounded-sm;
   }
-  .icon {
-    @apply text-title text-dark;
+
+  .title {
+    @apply text-title font-bold text-light;
+  }
+  .subtitle {
+    @apply text-subtitle font-medium text-light;
+  }
+  .text {
+    @apply text-paragraph text-blue font-medium;
+  }
+  .label {
+    @apply text-subtitle text-light font-medium;
+  }
+
+  .icon__fixed {
+    @apply text-light;
   }
   .icon__completed {
     @apply text-green;
@@ -51,75 +50,71 @@
   .icon__incompleted {
     @apply text-red;
   }
-  .icon__select {
-    @apply text-paragraph;
-  }
 
   .app {
-    @apply m-auto max-w-2xl p-4 min-h-screen;
+    @apply m-auto md:max-w-2xl sm:max-w-sm max-w-xs p-4 min-h-screen;
   }
+
+  .header,
   .app__container-section {
     @apply gap-4 flex flex-col;
   }
-
-  .header {
-    @apply gap-6 flex flex-col;
-  }
-  .header__titles {
-    @apply flex items-center justify-between;
-  }
+  .header__titles,
   .header__nav-actions {
-    @apply flex items-center justify-between;
-  }
-  .header__nav-actions_inputs {
-    @apply flex items-center gap-2;
+    @apply flex sm:flex-row flex-col gap-4 items-center justify-between;
   }
 
   .tasks {
-    @apply p-8 flex items-center border-dark border shadow-md rounded-sm justify-between;
+    @apply p-8 flex sm:flex-row flex-col gap-4 sm:items-center border-2 border-blue rounded-sm justify-between;
   }
-
-  .add {
-    @apply p-8 flex items-center border-dark border shadow-md rounded-sm justify-center;
+  .tasks.active {
+    @apply bg-blueo;
+  }
+  .tasks__icons {
+    @apply text-title;
   }
 
   .actions {
-    @apply flex items-center justify-between gap-4;
+    @apply fixed sm:top-4 sm:right-4 top-2 right-2 flex flex-col items-center justify-between gap-4;
   }
-  .actions__container {
-    @apply flex gap-4;
+
+  .add {
+    @apply fixed sm:right-4 sm:bottom-4 right-2 bottom-2;
+  }
+  .add,
+  .actions .icon__fixed {
+    @apply sm:p-4 p-2 transition-all ease-in-out duration-200 hover:brightness-110 bg-blue flex items-center rounded-full;
   }
 
   .form {
     @apply mx-40 p-4;
   }
-  .form__container {
-    @apply flex flex-col w-full gap-4;
-  }
-  .form__container-title {
-    @apply text-center;
+  .form__container,
+  .form__container-form,
+  .form__container-message {
+    @apply flex flex-col gap-4;
   }
   .form__container-group {
     @apply flex flex-col gap-2 w-full;
   }
-  .form__success {
-    @apply flex flex-col justify-center gap-4 text-center;
+  .form__container-buttons {
+    @apply flex justify-between items-center gap-4;
   }
-  .form__succes-buttons {
-    @apply flex justify-between items-center;
+  .form__container-buttons .button {
+    @apply w-full;
   }
-
-  .edit {
-    @apply mx-40 p-4;
-  }
-  .edit__container {
-    @apply flex flex-col gap-4 text-center;
-  }
-  .edit__container-form {
-    @apply flex flex-col gap-2 text-left;
+  .form__container-message {
+    @apply justify-center;
   }
 }
 
 input {
-  accent-color: #2b2d42;
+  accent-color: #1982c4;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
+  -webkit-transition-delay: 9999s;
 }

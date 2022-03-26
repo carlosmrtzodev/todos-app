@@ -14,6 +14,7 @@ const Task = (props) => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [message, setMessage] = useState("");
+  const [submitted, setSubmitted] = useState(false);
   const [currentTask, setCurrentTask] = useState(initialTaskState);
 
   const getTask = (id) => {
@@ -47,70 +48,92 @@ const Task = (props) => {
       .catch((e) => {
         console.log(e);
       });
+
+    setSubmitted(true);
   };
 
   return (
     <Container>
-      <div className="edit">
+      <div className="form">
         {currentTask ? (
-          <div className="edit__container">
-            <h1 className="title">Editar Tarea</h1>
+          <div className="form__container">
+            {submitted ? (
+              <div className="form__container-message">
+                <h4 className="subtitle">
+                  Se ha actualizado la tarjeta exitosamente!
+                </h4>
 
-            <p className="text">{message}</p>
-
-            <form className="edit__container-form">
-              <div className="form__container-group">
-                <label htmlFor="description" className="label">
-                  Descripción
-                </label>
-
-                <input
-                  type="text"
-                  className="input__text"
-                  id="description"
-                  name="description"
-                  value={currentTask.description}
-                  onChange={handleInputChange}
-                />
+                <div className="form__container-buttons">
+                  <Link to="/" className="button">
+                    Volver
+                  </Link>
+                </div>
               </div>
+            ) : (
+              <>
+                <div className="form__container-message">
+                  <h1 className="title">Actualizar Tarjeta</h1>
+                </div>
 
-              <div className="form__container-group">
-                <label htmlFor="date" className="label">
-                  Fecha
-                </label>
+                <form className="form__container-form">
+                  <div className="form__container-group">
+                    <label htmlFor="description" className="label">
+                      Descripción
+                    </label>
 
-                <input
-                  type="text"
-                  className="input__text"
-                  id="date"
-                  name="date"
-                  value={currentTask.date}
-                  onChange={handleInputChange}
-                />
-              </div>
-            </form>
+                    <input
+                      type="text"
+                      className="input__text"
+                      id="description"
+                      name="description"
+                      value={currentTask.description}
+                      onChange={handleInputChange}
+                    />
+                  </div>
 
-            <button
-              type="submit"
-              className="button button__update"
-              onClick={updateContent}
-            >
-              Actualizar
-            </button>
+                  <div className="form__container-group">
+                    <label htmlFor="date" className="label">
+                      Fecha
+                    </label>
 
-            {message && (
-              <Link to="/" className="button">
-                Volver
-              </Link>
+                    <input
+                      type="text"
+                      className="input__text"
+                      id="date"
+                      name="date"
+                      value={currentTask.date}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </form>
+
+                <div className="form__container-buttons">
+                  <button
+                    type="submit"
+                    className="button button__alt"
+                    onClick={updateContent}
+                  >
+                    Actualizar
+                  </button>
+
+                  <Link to="/" className="button">
+                    Volver
+                  </Link>
+                </div>
+              </>
             )}
           </div>
         ) : (
-          <div className="error">
-            <p className="text">Algo ha salido mal</p>
+          <div className="form__container">
+            <div className="form__container-message">
+              <h4 className="subtitle">Algo ha salido mal</h4>
 
-            <Link to="/" className="button button__delete">
-              Volver
-            </Link>
+              <div className="form__container-buttons">
+                <Link to="/" className="button">
+                  Volver
+                </Link>
+              </div>
+            </div>
           </div>
         )}
       </div>
