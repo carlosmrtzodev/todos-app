@@ -35,7 +35,7 @@ You can fork this repo without no problem, enjoy :).
 3. Start the development server
 
    ```sh
-   npm start
+   npm run dev
    ```
 
 ## 🚀 Building and Running for Production
