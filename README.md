@@ -4,7 +4,7 @@
 TODOs App in React.js with React Router, Redux, Axios and Tailwind CSS. <br><br>
 </div>
 
-[![TODOs App Banner](./public/banner.png)](https://pomodoro-app-sage.vercel.app/)
+[![TODOs App Banner](./public/banner.jpeg)](https://github.com/carlosmrtzodev/todos-app)
 
 ## 💼 Used technologies
 

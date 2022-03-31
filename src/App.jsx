@@ -8,7 +8,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Tasks />} />
+        <Route path="/" element={<Index />} />
         <Route path="/tasks/:id" element={<Task />} />
         <Route path="/add" element={<AddTask />} />
       </Routes>
