@@ -1,5 +1,5 @@
 import "./Globals.css";
-import Tasks from "./components/Tasks";
+import Index from "./components/Index";
 import Task from "./components/pages/Task";
 import AddTask from "./components/pages/AddTask";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
