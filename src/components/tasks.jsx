@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteTask, getTasks } from "../actions/tasks";
 
-const tasks = () => {
+const Tasks = () => {
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.tasks);
   const [currentTask, setCurrentTask] = useState(null);
